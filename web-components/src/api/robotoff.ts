@@ -18,16 +18,13 @@ import { languageCode } from "../signals/app"
 import { Robotoff } from "@openfoodfacts/openfoodfacts-nodejs"
 
 const createRobotoff = () =>
-  new Robotoff({
-    apiUrl: robotoffConfiguration.getItem("apiUrl"),
+  new Robotoff(fetch, {
+    baseUrl: robotoffConfiguration.getItem("apiUrl") as string,
   })
 
 /**
  * Get the API URL for a given path with the current configuration
- * @param path
- * @returns {string}
  */
-
 const getApiUrl = (path: string) => {
   return `${robotoffConfiguration.getItem("apiUrl")}${path}`
 }
@@ -37,7 +34,6 @@ const getApiUrl = (path: string) => {
  * @param formBody
  * @returns {Promise<Response>}
  */
-
 const annotate = (formBody: string) => {
   const apiUrl = getApiUrl("/insights/annotate")
   if (robotoffConfiguration.getItem("dryRun")) {
